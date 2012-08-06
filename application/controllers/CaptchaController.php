@@ -12,7 +12,7 @@ class CaptchaController extends Zend_Controller_Action {
 
     public function generateAction() {
         
-
+        $host = $this->getRequest()->getServer('HTTP_HOST');
         $captcha = new Zend_Captcha_Image();
         $captcha->setImgDir(APPLICATION_PATH . '/../public/img/captcha/');
         $captcha->setImgUrl($this->view->baseUrl('/img/captcha/'));
@@ -28,7 +28,7 @@ class CaptchaController extends Zend_Controller_Action {
         $data->word = $captcha->getWord();
         $this->cache->save($data,"captcha_{$data->id}");
         $this->view->captcha = array(
-            'path'  => "http://captcha.local{$captcha->getImgUrl()}{$captcha->getId()}.png",
+            'path'  => "http://$host{$captcha->getImgUrl()}{$captcha->getId()}.png",
             'id'    => $captcha->getId()
         );
     }
