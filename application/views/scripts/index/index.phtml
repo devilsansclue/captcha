@@ -1,1 +1,14 @@
-<a href="/captcha/generate">generate captcha</a>
+<?php
+if (isset($this->captcha)){ 
+?><form method = "post" action = "/">
+	<input id="captcha" type="text" name="captcha" />
+        <br><img src="<?=$this->captcha->path ?>">
+	<input type="hidden" name="cid" value="<?php echo $this->captcha->id ?>" >
+        <br><button type="submit">Submit</button>
+</form>
+ 
+<?php 
+}
+if (isset($this->human)){ 
+	echo  'human';
+}?>

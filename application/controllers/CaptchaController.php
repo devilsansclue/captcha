@@ -23,11 +23,14 @@ class CaptchaController extends Zend_Controller_Action {
         $captcha->setDotNoiseLevel(3);
         $captcha->setWidth(190);
         $captcha->setHeight(64);
-        
+        $captcha->render();
         $data->id = $captcha->generate();
         $data->word = $captcha->getWord();
         $this->cache->save($data,"captcha_{$data->id}");
-        $this->view->captcha = $captcha;
+        $this->view->captcha = array(
+            'path'  => "http://captcha.local{$captcha->getImgUrl()}{$captcha->getId()}.png",
+            'id'    => $captcha->getId()
+        );
     }
 
     public function verifyAction() {
@@ -35,12 +38,7 @@ class CaptchaController extends Zend_Controller_Action {
         if (isset($_POST['cid'])) {
             $capId = trim($_POST['cid']);
             $capSession = $this->cache->load("captcha_{$capId}");
-            if ($_POST['captcha'] == $capSession->word) {
-                //succesful  test - probably a human
-                $this->view->human = 1;
-
-                return;  // end action execution here
-            }
+            $this->view->human = $_POST['captcha'] == $capSession->word;
         }
     }
 

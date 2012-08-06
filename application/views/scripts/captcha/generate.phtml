@@ -1,14 +1,1 @@
-<pre><?php
-if (isset($this->captcha)){ 
-?><form method = "post" action = "<?= $this->baseUrl() ?>/captcha/verify">
-	<input id="captcha" type="text" name="captcha" />
-		<?php echo $this->captcha->render($this, null) ?>
-	<input type="hidden" name="cid" value="<?php echo $this->captcha->getId() ?>" >
-        <button type="submit">submit</button>
-</form>
- 
-<?php 
-}
-if (isset($this->human)){ 
-	echo  'human';
-}?>
+<?=json_encode($this->captcha)?>
