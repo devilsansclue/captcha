@@ -39,6 +39,7 @@ class CaptchaController extends Zend_Controller_Action {
             $capId = trim($_POST['cid']);
             $capSession = $this->cache->load("captcha_{$capId}");
             $this->view->human = $_POST['captcha'] == $capSession->word;
+            $this->cache->remove("captcha_{$capId}");
         }
     }
 
